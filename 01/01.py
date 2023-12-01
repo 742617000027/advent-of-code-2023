@@ -1,33 +1,20 @@
 import utils
 
-DIGITS_MAP = {
-    'one': '1',
-    'two': '2',
-    'three': '3',
-    'four': '4',
-    'five': '5',
-    'six': '6',
-    'seven': '7',
-    'eight': '8',
-    'nine': '9'
-}
-
+DIGITS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 
 def get_calibration_value(line, as_letters=False):
     stripped = [c for c in line if c in [str(d) for d in range(10)]]
     first_real_digit, last_real_digit = stripped[0], stripped[-1]
 
     if as_letters:
+        first_real_digit_idx, last_real_digit_idx = line.find(first_real_digit), line.rfind(last_real_digit)
 
-        first_real_digit_idx = line.find(first_real_digit)
-        last_real_digit_idx = len(line) - line[::-1].find(last_real_digit) - 1
+        for i, word in enumerate(DIGITS):
+            if (idx := line.find(word, 0, first_real_digit_idx + 1)) > -1:
+                first_real_digit, first_real_digit_idx = str(i + 1), idx
 
-        for k, v in DIGITS_MAP.items():
-            idx = line.find(k, 0, first_real_digit_idx + 1)
-            if idx > -1: first_real_digit, first_real_digit_idx = v, idx
-
-            ridx = line.rfind(k, last_real_digit_idx + 1, len(line))
-            if ridx > -1: last_real_digit, last_real_digit_idx = v, ridx
+            if (ridx := line.rfind(word, last_real_digit_idx + 1)) > -1:
+                last_real_digit, last_real_digit_idx = str(i + 1), ridx
 
     return int(f'{first_real_digit}{last_real_digit}')
 
