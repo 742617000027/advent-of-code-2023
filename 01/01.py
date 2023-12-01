@@ -12,6 +12,7 @@ DIGITS_MAP = {
     'nine': '9'
 }
 
+
 def get_calibration_value(line, as_letters=False):
     stripped = [c for c in line if c in [str(d) for d in range(10)]]
     first_real_digit, last_real_digit = stripped[0], stripped[-1]
@@ -43,4 +44,3 @@ if __name__ == "__main__":
     timer.start()
     print(sum(get_calibration_value(line, as_letters=True) for line in utils.read_str_lines()))
     timer.stop()  # 36.53ms
-
