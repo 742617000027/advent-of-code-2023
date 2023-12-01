@@ -3,7 +3,7 @@ import utils
 DIGITS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 
 def get_calibration_value(line, as_letters=False):
-    stripped = [c for c in line if c in [str(d) for d in range(10)]]
+    stripped = [c for c in line if c in [str(d) for d in range(1, 10)]]
     first_real_digit, last_real_digit = stripped[0], stripped[-1]
 
     if as_letters:
