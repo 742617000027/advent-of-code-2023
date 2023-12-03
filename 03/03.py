@@ -1,27 +1,33 @@
 import re
-from typing import List
+from typing import List, Set, Tuple
 
 import utils
 
 
-def get_all_numbers(rows):
+type Number = Tuple[str, Tuple[int, int]]
+
+def get_all_numbers(rows: List[str]) -> List[Tuple[Number, int]]:
     return [(number, r) for r, row in enumerate(rows) for number in get_in_row(r'\d+', row)]
 
 
-def get_unique_symbols(engine):
+def get_unique_symbols(engine: str) -> Set[str]:
     return set(re.findall(r'[^\d.\\n]', engine))
 
 
-def get_valid_numbers(rows, numbers, symbols):
+def get_valid_numbers(rows: List[str], numbers: List[Tuple[Number, int]], symbols: Set[str]) -> List[int]:
     len_line = len(rows[0])
-    return [int(n) for ((n, pos), r) in numbers if is_symbol_adjacent(r, pos, rows, len_line, symbols)]
+    return [
+        int(n)
+        for ((n, number_pos), number_r) in numbers
+        if is_symbol_adjacent(number_r, number_pos, rows, len_line, symbols)
+    ]
 
 
-def get_gear_ratios(rows, numbers):
+def get_gear_ratios(rows: List[str], numbers: List[Tuple[Number, int]]) -> List[int]:
     return [
         adjacent_numbers[0] * adjacent_numbers[1]
         for adjacent_numbers in [
-            numbers_adjacent(gear_pos, r, numbers)
+            numbers_adjacent(r, gear_pos, numbers)
             for r, row in enumerate(rows)
             for (_, (gear_pos, _)) in get_in_row(r'\*', row)
         ]
@@ -29,11 +35,11 @@ def get_gear_ratios(rows, numbers):
     ]
 
 
-def is_gear(adjacent_numbers):
+def is_gear(adjacent_numbers: List[int]) -> bool:
     return len(adjacent_numbers) == 2
 
 
-def numbers_adjacent(gear_pos, gear_r, numbers):
+def numbers_adjacent(gear_r: int, gear_pos: int, numbers: List[Number]) -> List[int]:
     return [
         int(n)
         for ((n, (number_start, number_end)), number_r) in numbers
@@ -41,21 +47,22 @@ def numbers_adjacent(gear_pos, gear_r, numbers):
     ]
 
 
-def is_symbol_adjacent(r, pos, rows: List[str], len_line, symbols):
-    start, end = pos
-    row_prev, row_next = max(r - 1, 0), min(r + 1, len(rows) - 1)
+def is_symbol_adjacent(number_r: int, number_pos: Tuple[int, int], rows: List[str],
+                       len_line: int, symbols: Set[str]) -> bool:
+    start, end = number_pos
+    row_prev, row_next = max(number_r - 1, 0), min(number_r + 1, len(rows) - 1)
     search_start, search_end = max(start - 1, 0), min(end + 1, len_line)
     for sym in symbols:
         if any([
             sym in rows[row_prev][search_start:search_end],
-            sym in rows[r][search_start:search_end],
+            sym in rows[number_r][search_start:search_end],
             sym in rows[row_next][search_start:search_end]
         ]):
             return True
     return False
 
 
-def get_in_row(pattern, row):
+def get_in_row(pattern: str, row: str) -> List[Tuple[str, Tuple[int, int]]]:
     return [(m.group(), (m.start(), m.end())) for m in re.finditer(pattern, row)]
 
 
@@ -79,4 +86,4 @@ if __name__ == "__main__":
 
     timer.start()
     main()
-    timer.stop()  # 39.80ms
+    timer.stop()  # 20.31ms
