@@ -3,8 +3,8 @@ from typing import List, Set, Tuple
 
 import utils
 
-
 type Number = Tuple[str, Tuple[int, int]]
+
 
 def get_all_numbers(rows: List[str]) -> List[Tuple[Number, int]]:
     return [(number, r) for r, row in enumerate(rows) for number in get_in_row(r'\d+', row)]
