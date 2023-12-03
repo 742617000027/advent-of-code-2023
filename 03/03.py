@@ -50,7 +50,7 @@ def get_gear_ratios(rows: List[str], numbers: List[Tuple[Number, int]]) -> List[
     ]
 
 
-def get_adjacent_numbers(gear_r: int, gear_pos: int, numbers: List[Number]) -> List[int]:
+def get_adjacent_numbers(gear_r: int, gear_pos: int, numbers: List[Tuple[Number, int]]) -> List[int]:
     return [
         int(n)
         for ((n, (number_start, number_end)), number_r) in numbers
