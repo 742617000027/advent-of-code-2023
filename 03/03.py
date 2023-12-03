@@ -3,10 +3,10 @@ from typing import List, Set, Tuple
 
 import utils
 
-type Number = Tuple[str, Tuple[int, int]]
+type RowElement = Tuple[str, Tuple[int, int]]
 
 
-def get_all_numbers(rows: List[str]) -> List[Tuple[Number, int]]:
+def get_all_numbers(rows: List[str]) -> List[Tuple[RowElement, int]]:
     return [(number, r) for r, row in enumerate(rows) for number in get_in_row(r'\d+', row)]
 
 
@@ -14,7 +14,7 @@ def get_unique_symbols(engine: str) -> Set[str]:
     return set(re.findall(r'[^\d.\\n]', engine))
 
 
-def get_valid_numbers(rows: List[str], numbers: List[Tuple[Number, int]], symbols: Set[str]) -> List[int]:
+def get_valid_numbers(rows: List[str], numbers: List[Tuple[RowElement, int]], symbols: Set[str]) -> List[int]:
     len_line = len(rows[0])
     return [
         int(n)
@@ -38,7 +38,7 @@ def is_symbol_adjacent(number_r: int, number_pos: Tuple[int, int], rows: List[st
     return False
 
 
-def get_gear_ratios(rows: List[str], numbers: List[Tuple[Number, int]]) -> List[int]:
+def get_gear_ratios(rows: List[str], numbers: List[Tuple[RowElement, int]]) -> List[int]:
     return [
         adjacent_numbers[0] * adjacent_numbers[1]
         for adjacent_numbers in [
@@ -50,7 +50,7 @@ def get_gear_ratios(rows: List[str], numbers: List[Tuple[Number, int]]) -> List[
     ]
 
 
-def get_adjacent_numbers(gear_r: int, gear_pos: int, numbers: List[Tuple[Number, int]]) -> List[int]:
+def get_adjacent_numbers(gear_r: int, gear_pos: int, numbers: List[Tuple[RowElement, int]]) -> List[int]:
     return [
         int(n)
         for ((n, (number_start, number_end)), number_r) in numbers
@@ -62,7 +62,7 @@ def is_gear(adjacent_numbers: List[int]) -> bool:
     return len(adjacent_numbers) == 2
 
 
-def get_in_row(pattern: str, row: str) -> List[Tuple[str, Tuple[int, int]]]:
+def get_in_row(pattern: str, row: str) -> List[RowElement]:
     return [(m.group(), (m.start(), m.end())) for m in re.finditer(pattern, row)]
 
 
