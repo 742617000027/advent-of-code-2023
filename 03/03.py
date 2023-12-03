@@ -23,30 +23,6 @@ def get_valid_numbers(rows: List[str], numbers: List[Tuple[Number, int]], symbol
     ]
 
 
-def get_gear_ratios(rows: List[str], numbers: List[Tuple[Number, int]]) -> List[int]:
-    return [
-        adjacent_numbers[0] * adjacent_numbers[1]
-        for adjacent_numbers in [
-            numbers_adjacent(r, gear_pos, numbers)
-            for r, row in enumerate(rows)
-            for (_, (gear_pos, _)) in get_in_row(r'\*', row)
-        ]
-        if is_gear(adjacent_numbers)
-    ]
-
-
-def is_gear(adjacent_numbers: List[int]) -> bool:
-    return len(adjacent_numbers) == 2
-
-
-def numbers_adjacent(gear_r: int, gear_pos: int, numbers: List[Number]) -> List[int]:
-    return [
-        int(n)
-        for ((n, (number_start, number_end)), number_r) in numbers
-        if (gear_r - 1 <= number_r <= gear_r + 1) and (number_start - 1 <= gear_pos <= number_end)
-    ]
-
-
 def is_symbol_adjacent(number_r: int, number_pos: Tuple[int, int], rows: List[str],
                        len_line: int, symbols: Set[str]) -> bool:
     start, end = number_pos
@@ -60,6 +36,30 @@ def is_symbol_adjacent(number_r: int, number_pos: Tuple[int, int], rows: List[st
         ]):
             return True
     return False
+
+
+def get_gear_ratios(rows: List[str], numbers: List[Tuple[Number, int]]) -> List[int]:
+    return [
+        adjacent_numbers[0] * adjacent_numbers[1]
+        for adjacent_numbers in [
+            numbers_adjacent(r, gear_pos, numbers)
+            for r, row in enumerate(rows)
+            for (_, (gear_pos, _)) in get_in_row(r'\*', row)
+        ]
+        if is_gear(adjacent_numbers)
+    ]
+
+
+def numbers_adjacent(gear_r: int, gear_pos: int, numbers: List[Number]) -> List[int]:
+    return [
+        int(n)
+        for ((n, (number_start, number_end)), number_r) in numbers
+        if (gear_r - 1 <= number_r <= gear_r + 1) and (number_start - 1 <= gear_pos <= number_end)
+    ]
+
+
+def is_gear(adjacent_numbers: List[int]) -> bool:
+    return len(adjacent_numbers) == 2
 
 
 def get_in_row(pattern: str, row: str) -> List[Tuple[str, Tuple[int, int]]]:
