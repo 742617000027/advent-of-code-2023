@@ -10,23 +10,20 @@ LIMITS = {'red': 12, 'green': 13, 'blue': 14}
 def get_values(i, line):
     _, cubes_part = line.split(': ')
     quantities = re.findall('(\d+) (blue|green|red)', cubes_part)
-    return i + 1 if possible(quantities) else 0, power(quantities)
+    maxvals = {color: maxval(quantities, color) for color in LIMITS.keys()}
+    return i + 1 if possible(maxvals) else 0, power(maxvals)
 
 
-def possible(quantities):
-    return all([int(v) <= LIMITS[color] for v, color in quantities])
+def possible(maxvals):
+    return all([maxvals[color] <= limit for color, limit in LIMITS.items()])
 
 
-def power(quantities):
-    return prod([maxval(quantities, color) for color in LIMITS.keys()])
+def power(maxvals):
+    return reduce(mul, maxvals.values(), 1)
 
 
 def maxval(quantities, color):
     return max([int(v) for v, c in quantities if c == color])
-
-
-def prod(l):
-    return reduce(mul, l, 1)
 
 
 def main():
