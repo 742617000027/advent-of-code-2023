@@ -8,7 +8,7 @@ type Range = Tuple[int, int]
 type Mapping = Tuple[int, int, int]
 
 
-def parse(puzzle: str):
+def parse(puzzle: str) -> Tuple[List[int], List[List[Mapping]]]:
     seed_str, *mappings_str = puzzle.split('\n\n')
     return get_seeds(seed_str), get_mappings(mappings_str)
 
