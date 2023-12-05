@@ -9,8 +9,8 @@ type Mapping = Tuple[int, int, int]
 
 
 def parse(puzzle: str):
-    seed_str, *maps_str = puzzle.split('\n\n')
-    return get_seeds(seed_str), get_mappings(maps_str)
+    seed_str, *mappings_str = puzzle.split('\n\n')
+    return get_seeds(seed_str), get_mappings(mappings_str)
 
 
 def get_seeds(seed_str: str) -> List[int]:
@@ -77,14 +77,14 @@ def in_range(n: int, s: int, r: int) -> bool:
 
 
 def main():
-    seeds, maps = parse(utils.read())
+    seeds, mappings = parse(utils.read())
 
     # Part 1
-    location_ranges = get_locations_ranges([seeds[i // 2] if i % 2 == 0 else 1 for i in range(len(seeds) * 2)], maps)
+    location_ranges = get_locations_ranges([seeds[i // 2] if i % 2 == 0 else 1 for i in range(len(seeds) * 2)], mappings)
     print('Part 1:', get_minimum(location_ranges))
 
     # Part 2
-    location_ranges = get_locations_ranges(seeds, maps)
+    location_ranges = get_locations_ranges(seeds, mappings)
     print('Part 2:', get_minimum(location_ranges))
 
 
