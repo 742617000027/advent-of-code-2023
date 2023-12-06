@@ -58,6 +58,10 @@ def transpose(l: List[Any]) -> List[Any]:
     return list(zip(*l))
 
 
+def str2ints(l: List[str]) -> List[int]:
+    return [int(c) for c in l]
+
+
 # collections
 Counter = Counter
 defaultdict = defaultdict
