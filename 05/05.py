@@ -14,7 +14,7 @@ def parse(puzzle: str) -> Tuple[List[int], List[List[Mapping]]]:
 
 
 def get_seeds(seed_str: str) -> List[int]:
-    return [int(seed) for seed in re.findall(r'\d+', seed_str)]
+    return [int(seed) for seed in utils.find_nums(seed_str)]
 
 
 def get_mappings(mappings_str: str) -> List[List[Mapping]]:
@@ -23,7 +23,7 @@ def get_mappings(mappings_str: str) -> List[List[Mapping]]:
 
 def extract_mappings(mapping_str: str) -> List[Mapping]:
     _, *mapping_lines = mapping_str.split('\n')
-    return [tuple([int(n) for n in re.findall(r'\d+', mapping_line)]) for mapping_line in mapping_lines]
+    return [tuple([int(n) for n in utils.find_nums(mapping_line)]) for mapping_line in mapping_lines]
 
 
 def get_locations_ranges(seeds: List[int], mappings: List[List[Mapping]]) -> List[Range]:
