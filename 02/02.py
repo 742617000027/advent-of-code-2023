@@ -28,7 +28,7 @@ def maxval(quantities, color):
 
 def main():
     games = utils.read_str_lines()
-    ids, powers = list(zip(*[get_values(i, line) for i, line in enumerate(games)]))
+    ids, powers = utils.transpose([get_values(i, line) for i, line in enumerate(games)])
 
     # Part 1
     print(sum(ids))

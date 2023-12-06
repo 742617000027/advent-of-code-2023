@@ -8,7 +8,7 @@ type Bound = Tuple[int, int]
 
 
 def get_races(puzzle: List[str]) -> List[Race]:
-    return list(zip(*[[int(n) for n in utils.find_nums(line)] for line in puzzle]))
+    return utils.transpose([[int(n) for n in utils.find_nums(line)] for line in puzzle])
 
 
 def get_single_race(puzzle: List[str]) -> Race:
