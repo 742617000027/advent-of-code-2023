@@ -1,3 +1,4 @@
+import re
 from collections import Counter, defaultdict, deque
 from copy import deepcopy
 from functools import cmp_to_key, reduce
@@ -47,6 +48,10 @@ def read(file: str = 'input') -> str:
     with open(file, 'r') as fp:
         content = fp.read()
     return content
+
+
+def find_nums(string: str) -> List[str]:
+    return re.findall(r'\d+', string)
 
 
 # collections
