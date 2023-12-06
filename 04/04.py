@@ -3,7 +3,6 @@ from typing import List, Set, Tuple
 
 import utils
 
-
 type Card = Tuple[Set[int], Set[int]]
 
 
@@ -21,12 +20,12 @@ def string_to_nums(string: str) -> Set[int]:
 
 def get_points(winning: Set[int], my: Set[int]) -> int:
     num_hits = len(winning.intersection(my))
-    return 2**(num_hits - 1) if num_hits else 0
+    return 2 ** (num_hits - 1) if num_hits else 0
 
 
 def play(cards: List[Card]) -> int:
     num_copies = {i: 1 for i in range(len(cards))}
-    for i, (winning, my)  in enumerate(cards):
+    for i, (winning, my) in enumerate(cards):
         num_hits = len(winning.intersection(my))
         for j in range(i + 1, i + num_hits + 1):
             num_copies[j] += num_copies[i]
