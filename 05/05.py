@@ -80,7 +80,10 @@ def main():
     seeds, mappings = parse(utils.read())
 
     # Part 1
-    location_ranges = get_locations_ranges([seeds[i // 2] if i % 2 == 0 else 1 for i in range(len(seeds) * 2)], mappings)
+    location_ranges = get_locations_ranges([
+        seeds[i // 2] if i % 2 == 0 else 1
+        for i in range(len(seeds) * 2)
+    ], mappings)
     print('Part 1:', get_minimum(location_ranges))
 
     # Part 2
