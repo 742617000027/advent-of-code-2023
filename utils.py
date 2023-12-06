@@ -2,8 +2,8 @@ from collections import Counter, defaultdict, deque
 from copy import deepcopy
 from functools import cmp_to_key, reduce
 from itertools import combinations, permutations, product
-
 from time import process_time
+from typing import List
 
 DIRS = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 DIAGDIRS = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
@@ -25,19 +25,19 @@ class Timer:
         print(f'finished in {1000 * self.dur:.2f}ms')
 
 
-def read_int_lines(file: str = 'input') -> list[int]:
+def read_int_lines(file: str = 'input') -> List[int]:
     with open(file, 'r') as fp:
         sequence = [int(n) for n in fp.read().splitlines()]
     return sequence
 
 
-def read_int_sequence(file: str = 'input') -> list[int]:
+def read_int_sequence(file: str = 'input') -> List[int]:
     with open(file, 'r') as fp:
         sequence = [int(n) for n in fp.read().split(',')]
     return sequence
 
 
-def read_str_lines(file: str = 'input') -> list[str]:
+def read_str_lines(file: str = 'input') -> List[str]:
     with open(file, 'r') as fp:
         sequence = fp.read().splitlines()
     return sequence
