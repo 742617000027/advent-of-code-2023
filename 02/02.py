@@ -9,7 +9,7 @@ LIMITS = {'red': 12, 'green': 13, 'blue': 14}
 
 def get_values(i, line):
     _, cubes_part = line.split(': ')
-    quantities = re.findall('(\d+) (blue|green|red)', cubes_part)
+    quantities = re.findall(r'(\d+) (blue|green|red)', cubes_part)
     maxvals = {color: maxval(quantities, color) for color in LIMITS.keys()}
     return i + 1 if possible(maxvals) else 0, power(maxvals)
 
