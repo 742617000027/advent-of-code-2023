@@ -8,11 +8,11 @@ type Bound = Tuple[int, int]
 
 
 def get_races(puzzle: List[str]) -> List[Race]:
-    return utils.transpose([[int(n) for n in utils.find_nums(line)] for line in puzzle])
+    return utils.transpose([utils.find_nums(line) for line in puzzle])
 
 
 def get_single_race(puzzle: List[str]) -> Race:
-    return tuple(int(''.join(utils.find_nums(line))) for line in puzzle)
+    return tuple(int(''.join(utils.find_nums(line, to_int=False))) for line in puzzle)
 
 
 def get_bounds(time: int, record: int) -> Bound:

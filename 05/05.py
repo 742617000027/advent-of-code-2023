@@ -14,7 +14,7 @@ def parse(puzzle: str) -> Tuple[List[int], List[List[Mapping]]]:
 
 
 def get_seeds(seed_str: str) -> List[int]:
-    return [int(seed) for seed in utils.find_nums(seed_str)]
+    return utils.find_nums(seed_str)
 
 
 def get_mappings(mappings_str: str) -> List[List[Mapping]]:

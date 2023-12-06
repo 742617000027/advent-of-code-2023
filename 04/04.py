@@ -15,7 +15,7 @@ def get_card(line: str) -> Card:
 
 
 def string_to_nums(string: str) -> Set[int]:
-    return {int(n) for n in re.findall(r'\d+', string)}
+    return set(utils.find_nums(string))
 
 
 def get_points(winning: Set[int], my: Set[int]) -> int:

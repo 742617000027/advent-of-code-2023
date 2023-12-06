@@ -4,7 +4,7 @@ from copy import deepcopy
 from functools import cmp_to_key, reduce
 from itertools import combinations, permutations, product
 from time import process_time
-from typing import Any, List
+from typing import Any, List, Union
 
 DIRS = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 DIAGDIRS = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
@@ -50,8 +50,10 @@ def read(file: str = 'input') -> str:
     return content
 
 
-def find_nums(string: str) -> List[str]:
-    return re.findall(r'\d+', string)
+def find_nums(string: str, to_int=True) -> List[Union[str, int]]:
+    nums = re.findall(r'\d+', string)
+    if to_int: return str2ints(nums)
+    return nums
 
 
 def transpose(l: List[Any]) -> List[Any]:
