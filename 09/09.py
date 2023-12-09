@@ -4,13 +4,12 @@ import utils
 
 
 def extrapolate(report: List[int]) -> Tuple[int, int]:
-    front, front_acc, back = report[0], [], report[-1]
+    front, back = report[:1], report[-1]
     while len(set(report)) > 1:
         report = diff(report)
-        front_acc.append(report[0])
+        front.append(report[0])
         back += report[-1]
-    front -= reduce(front_acc[::-1])
-    return front, back
+    return reduce(front[::-1]), back
 
 
 def diff(l: List[int]) -> List[int]:
