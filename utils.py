@@ -51,7 +51,7 @@ def read(file: str = 'input') -> str:
 
 
 def find_nums(string: str, to_int=True) -> List[Union[str, int]]:
-    nums = re.findall(r'\d+', string)
+    nums = re.findall(r'-?\d+', string)
     if to_int: return str2ints(nums)
     return nums
 
