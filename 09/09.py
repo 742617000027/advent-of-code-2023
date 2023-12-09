@@ -2,9 +2,6 @@ from typing import Dict, List, Tuple, Union
 
 import utils
 
-type Instructions = List[int]
-type Mappings = Dict[str: Tuple[str, str]]
-
 
 def extrapolate(report: List[int]) -> Tuple[int, int]:
     front, front_acc, back = report[0], [], report[-1]
