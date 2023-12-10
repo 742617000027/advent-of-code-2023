@@ -193,12 +193,12 @@ def find_inner_marker(marked_scan: Scan) -> str:
     sides = {HERE: THERE, THERE: HERE}
 
     for j in range(J):
-        if marked_scan[0][j] in sides: return sides[marked_scan[0][j]]
-        if marked_scan[I - 1][j] in sides: return sides[marked_scan[I - 1][j]]
+        if (tile := marked_scan[0][j]) in sides: return sides[tile]
+        if (tile := marked_scan[I - 1][j]) in sides: return sides[tile]
 
     for i in range(1, I - 1):
-        if marked_scan[i][0] in sides: return sides[marked_scan[i][0]]
-        if marked_scan[i][J - 1] in sides: return sides[marked_scan[i][J - 1]]
+        if (tile := marked_scan[i][0]) in sides: return sides[tile]
+        if (tile := marked_scan[i][J - 1]) in sides: return sides[tile]
 
 
 def get_tile(scan: Scan, position: Position) -> str:
