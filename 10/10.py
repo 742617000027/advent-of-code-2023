@@ -137,16 +137,13 @@ def mark(scan: Scan, marked_scan: Scan, position: Position, move: Move) -> Scan:
     i, j = position
     marked_scan[i][j] = tile
 
-    for di, dj in left:
-        ni, nj = i + di, j + dj
+    for side, marker in zip([left, right], [HERE, THERE]):
 
-        if 0 <= ni < I and 0 <= nj < J and marked_scan[ni][nj] == NOWHERE:
-            marked_scan[ni][nj] = HERE
+        for di, dj in side:
+            ni, nj = i + di, j + dj
 
-    for di, dj in right:
-        ni, nj = i + di, j + dj
-        if 0 <= ni < I and 0 <= nj < J and marked_scan[ni][nj] == NOWHERE:
-            marked_scan[ni][nj] = THERE
+            if 0 <= ni < I and 0 <= nj < J and marked_scan[ni][nj] == NOWHERE:
+                marked_scan[ni][nj] = marker
 
     return marked_scan
 
