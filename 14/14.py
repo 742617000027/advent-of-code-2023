@@ -35,8 +35,8 @@ def tilt(platform: Platform, direction: Direction) -> Platform:
     is_ns_dir, is_ew_dir = direction in ['north', 'south'], direction in ['east', 'west']
     i_range, j_range, ni_ranges, nj_ranges, i_offset, j_offset = get_ranges(I, J, direction)
 
-    for (ii, i), (jj, j) in product(enumerate(i_range), enumerate(j_range)):
-        ni_range, nj_range = (ni_ranges[ii], nj_ranges[jj]) if is_ns_dir else (ni_ranges[ii], nj_ranges[jj])
+    for (ii, (i, ni_range)), (jj, (j, nj_range)) \
+            in product(enumerate(zip(i_range, ni_ranges)), enumerate(zip(j_range, nj_ranges))):
 
         if platform[i][j] == 'O':
 
@@ -105,4 +105,4 @@ if __name__ == "__main__":
 
     timer.start()
     main()
-    timer.stop()  # 1976.83ms
+    timer.stop()  # 1721.43ms
