@@ -4,7 +4,6 @@ from typing import List, Tuple, Union
 import utils
 
 type Platform = List[List[str]]
-type Tuplified = Tuple[Tuple[str]]
 type Direction = Union['north', 'east', 'south', 'west']
 
 
