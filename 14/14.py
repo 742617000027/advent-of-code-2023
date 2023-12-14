@@ -7,19 +7,20 @@ type Platform = List[List[str]]
 type Direction = Union['north', 'east', 'south', 'west']
 
 
-def cycle_tilt(platform: Platform, num_cycles: int = 10 ** 9) -> Platform:
-    history, cycles = [get_platform_hash(platform)], 0
+def cycle_tilt(platform: Platform, num_cycles: int = 10 ** 9, cycles: int = 0) -> Platform:
+    platform_hash = get_platform_hash(platform)
+    history = [platform_hash]
 
-    while True:
+    for cycles in range(1, num_cycles + 1):
         platform = perform_full_cycle(platform)
-        cycles += 1
         platform_hash = get_platform_hash(platform)
         if platform_hash in history: break
         history.append(platform_hash)
 
-    idx = history.index(platform_hash)
-    for _ in range((num_cycles - cycles) % (cycles - idx)):
-        platform = perform_full_cycle(platform)
+    if cycles < num_cycles:
+        cycle_len = cycles - history.index(platform_hash)
+        remaining_cycles = (num_cycles - cycles) % cycle_len
+        platform = cycle_tilt(platform, num_cycles=remaining_cycles)
 
     return platform
 
