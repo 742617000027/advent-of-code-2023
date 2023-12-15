@@ -33,7 +33,6 @@ def perform_full_cycle(platform: Platform) -> Platform:
 
 def tilt(platform: Platform, direction: Direction) -> Platform:
     I, J = len(platform), len(platform[0])
-    is_ns_dir, is_ew_dir = direction in ['north', 'south'], direction in ['east', 'west']
     i_range, j_range, ni_ranges, nj_ranges, i_offset, j_offset = get_ranges(I, J, direction)
 
     for (i, ni_range), (j, nj_range) in product(zip(i_range, ni_ranges), zip(j_range, nj_ranges)):
@@ -47,8 +46,8 @@ def tilt(platform: Platform, direction: Direction) -> Platform:
                     platform[ni + i_offset][nj + j_offset] = 'O'
                     break
 
-                if ((is_ns_dir and (ni == (I - 1) * (direction == 'south'))) or
-                        (is_ew_dir and nj == (J - 1) * (direction == 'east'))):
+                if ((direction in ['north', 'south'] and (ni == (I - 1) * (direction == 'south'))) or
+                        (direction in ['east', 'west'] and nj == (J - 1) * (direction == 'east'))):
                     platform[i][j] = '.'
                     platform[ni][nj] = 'O'
 
