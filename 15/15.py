@@ -9,15 +9,14 @@ def init(strings: List[str]) -> Tuple[List[Box], Dict[str, int]]:
     boxes, focals = [[] for _ in range(256)], dict()
 
     for string in strings:
-        idx = string.find('=') if '=' in string else string.find('-')
-        label = string[:idx]
+        label, focal_len = string.split('=') if '=' in string else (string.rstrip('-'), None)
         box = HASH(label)
 
         if '=' in string:
-            focals[label] = int(string[idx + 1:])
+            focals[label] = int(focal_len)
             if label not in boxes[box]: boxes[box].append(label)
 
-        if '-' in string and label in boxes[box]: boxes[box].pop(boxes[box].index(label))
+        if '-' in string and label in boxes[box]: boxes[box].remove(label)
 
     return boxes, focals
 
@@ -50,4 +49,4 @@ if __name__ == "__main__":
 
     timer.start()
     main()
-    timer.stop()  # 6.23ms
+    timer.stop()  # 5.91ms
