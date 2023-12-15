@@ -1,5 +1,5 @@
 from itertools import cycle, product
-from typing import List, Union
+from typing import Iterator, List, Tuple, Union
 
 import utils
 
@@ -9,16 +9,16 @@ type Direction = Union['north', 'east', 'south', 'west']
 
 def cycle_tilt(platform: Platform, num_cycles: int = 10 ** 9, cycles: int = 0) -> Platform:
     platform_hash = get_platform_hash(platform)
-    history = [platform_hash]
+    history = {platform_hash: 0}
 
     for cycles in range(1, num_cycles + 1):
         platform = perform_full_cycle(platform)
         platform_hash = get_platform_hash(platform)
         if platform_hash in history: break
-        history.append(platform_hash)
+        history[platform_hash] = cycles
 
     if cycles < num_cycles:
-        cycle_len = cycles - history.index(platform_hash)
+        cycle_len = cycles - history[platform_hash]
         remaining_cycles = (num_cycles - cycles) % cycle_len
         platform = cycle_tilt(platform, num_cycles=remaining_cycles)
 
@@ -55,7 +55,8 @@ def tilt(platform: Platform, direction: Direction) -> Platform:
     return platform
 
 
-def get_ranges(I: int, J: int, direction: Direction):
+def get_ranges(I: int, J: int, direction: Direction) \
+        -> Tuple[range, range, List[Iterator[int]], List[Iterator[int]], int, int]:
     i_range, j_range = (
         (range(1, I) if direction == 'north' else range(I - 2, -1, -1), range(0, J))
         if direction in ['north', 'south'] else
@@ -105,4 +106,4 @@ if __name__ == "__main__":
 
     timer.start()
     main()
-    timer.stop()  # 1691.19ms
+    timer.stop()  # 1637.18ms
