@@ -1,13 +1,17 @@
 from collections import deque
+from typing import List, Set, Tuple, Union
 
 import utils
 
+type Beam = Tuple[Tuple[int, int], Tuple[int, int]]
+type Layout = List[List[Union[str, bool]]]
 
-def parse():
+
+def parse() -> Layout:
     return [[c for c in line] for line in utils.read_str_lines()]
 
 
-def LAZER(contraption, start):
+def LAZER(contraption: Layout, start: Beam) -> Layout:
     I, J = len(contraption), len(contraption[0])
     energized = [[set() for _ in range(J)] for _ in range(I)]
     beams = deque([start])
@@ -52,7 +56,7 @@ def LAZER(contraption, start):
     return [[len(s) > 0 for s in row] for row in energized]
 
 
-def get_all_start_positions(I, J):
+def get_all_start_positions(I: int, J: int) -> Set[Beam]:
     start_positions = set()
 
     for i in range(I):
@@ -66,7 +70,7 @@ def get_all_start_positions(I, J):
     return start_positions
 
 
-def get_total(energized):
+def get_total(energized: Layout) -> int:
     return sum([tile for row in energized for tile in row])
 
 
