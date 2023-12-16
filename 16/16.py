@@ -6,6 +6,14 @@ import utils
 type Beam = Tuple[Tuple[int, int], Tuple[int, int]]
 type Layout = List[List[Union[str, bool]]]
 
+OP = {
+    '.': lambda di, dj: [(di, dj)],
+    '\\': lambda di, dj: [(dj, di)],
+    '/': lambda di, dj: [(-dj, -di)],
+    '|': lambda di, dj: [(dj, di), (-dj, di)] if (di, dj) in {(0, 1), (0, -1)} else [(di, dj)],
+    '-': lambda di, dj: [(dj, di), (dj, -di)] if (di, dj) in {(1, 0), (-1, 0)} else [(di, dj)]
+}
+
 
 def parse() -> Layout:
     return [[c for c in line] for line in utils.read_str_lines()]
@@ -23,35 +31,9 @@ def LAZER(contraption: Layout, start: Beam) -> Layout:
 
         if (not (0 <= ni < I and 0 <= nj < J)) or beam in energized[ni][nj]: continue
 
-        energized[ni][nj].add(((i, j), (di, dj)))
-
-        if contraption[ni][nj] == '.':
-            beams.append(((ni, nj), (di, dj)))
-            continue
-
-        if contraption[ni][nj] == '\\':
-            beams.append(((ni, nj), (dj, di)))
-            continue
-
-        if contraption[ni][nj] == '/':
-            beams.append(((ni, nj), (-dj, -di)))
-            continue
-
-        if contraption[ni][nj] in '|':
-            if (di, dj) in {(0, 1), (0, -1)}:
-                beams.append(((ni, nj), (dj, di)))
-                beams.append(((ni, nj), (-dj, di)))
-            else:
-                beams.append(((ni, nj), (di, dj)))
-            continue
-
-        if contraption[ni][nj] == '-':
-            if (di, dj) in {(1, 0), (-1, 0)}:
-                beams.append(((ni, nj), (dj, di)))
-                beams.append(((ni, nj), (dj, -di)))
-            else:
-                beams.append(((ni, nj), (di, dj)))
-            continue
+        energized[ni][nj].add(beam)
+        tile = contraption[ni][nj]
+        beams.extend([((ni, nj), (ndi, ndj)) for ndi, ndj in OP[tile](di, dj)])
 
     return [[len(s) > 0 for s in row] for row in energized]
 
