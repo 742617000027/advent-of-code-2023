@@ -38,7 +38,8 @@ def LAZER(contraption: Layout, start: Beam) -> Layout:
     return [[len(s) > 0 for s in row] for row in energized]
 
 
-def get_all_start_positions(I: int, J: int) -> Set[Beam]:
+def get_all_start_positions(contraption: Layout) -> Set[Beam]:
+    I, J = len(contraption), len(contraption[0])
     start_positions = set()
 
     for i in range(I):
@@ -64,8 +65,7 @@ def main():
     print('Part 1:', get_total(energized))
 
     # Part 2
-    I, J = len(contraption), len(contraption[0])
-    start_positions = get_all_start_positions(I, J)
+    start_positions = get_all_start_positions(contraption)
     print('Part 2:', max([
         get_total(energized)
         for energized in [
